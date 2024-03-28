@@ -19,23 +19,24 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ url('/edit_aksi_riwayat_pendidikan/'.$edit->id_cv) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ url('/edit_aksi_pengalaman/'.$edit->id_cv) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PATCH')
-                            <center><Strong>
-                                <font size="6px">Riwayat pendidikan</font>
-                            </strong></center>
-                            @foreach(json_decode($edit->data_pendidikan, true) as $pendidikan)
+                           
+                          @foreach(json_decode($edit->data_pengalaman, true) as $pengalaman)
+
                             <div class="slide" id="slide1">
-                             
-                                <br>
+                                <center><Strong>
+                                        <font size="6px">Pengalaman</font>
+                                    </strong></center>
+                                <br> 
                                 <div class="row mb-3">
-                                    <label for="jenjang"
-                                        class="col-md-3 col-form-label text-md-end">{{ __('jenjang:') }}</label>
+                                    <label for="organisasi"
+                                        class="col-md-3 col-form-label text-md-end">{{ __('Nama organisasi/instansi :') }}</label>
                                     <div class="col-md-9">
-                                        <input id="jenjang" class="form-control @error('jenjang') is-invalid @enderror" name="jenjang"  value="{{ $pendidikan['jenjang'] }}" required
-                                            autocomplete="jenjang" autofocus required>
-                                        @error('pengalaman')
+                                        <input  id="organisasi" class="form-control @error('organisasi') is-invalid @enderror" name="organisasi[]"  value="{{ $pengalaman['organisasi'] }}" required
+                                            autocomplete="organisasi" autofocus required>
+                                        @error('organisasi')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -45,12 +46,12 @@
                                 </div>
                                      
                                 <div class="row mb-3">
-                                    <label for="sekolah"
-                                        class="col-md-3 col-form-label text-md-end">{{ __('Sekolah :') }}</label>
+                                    <label for="posisi"
+                                        class="col-md-3 col-form-label text-md-end">{{ __('posisi :') }}</label>
                                     <div class="col-md-9">
-                                        <input id="sekolah" class="form-control @error('sekolah') is-invalid @enderror" name="sekolah"  value="{{ $pendidikan['sekolah'] }}" required
-                                            autocomplete="jenjang" autofocus required>
-                                        @error('pengalaman')
+                                        <input id="posisi" class="form-control @error('posisi') is-invalid @enderror" name="posisi[]"  value="{{ $pengalaman['posisi'] }}" required
+                                            autocomplete="posisi" autofocus required>
+                                        @error('posisi')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -58,28 +59,14 @@
                                     </div>
                                 </div>
 
+                               
                                 <div class="row mb-3">
-                                    <label for="gelar"
-                                        class="col-md-3 col-form-label text-md-end">{{ __('Gelar depan :') }}</label>
+                                    <label for="penerbit"
+                                        class="col-md-3 col-form-label text-md-end">{{ __('Penerbit :') }}</label>
                                     <div class="col-md-9">
-                                        <input id="gelar" class="form-control @error('gelar') is-invalid @enderror" name="gelar"  value="{{ $pendidikan['gelar'] }}" required
-                                            autocomplete="gelar" autofocus required>
-                                        @error('pengalaman')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    
-                                </div>
-
-                                <div class="row mb-3">
-                                    <label for="gelar_b"
-                                        class="col-md-3 col-form-label text-md-end">{{ __('Gelar belakang :') }}</label>
-                                    <div class="col-md-9">
-                                        <input id="gelar_b" class="form-control @error('gelar_b') is-invalid @enderror" name="gelar_b"  value="{{ $pendidikan['gelar_b'] }}" required
-                                            autocomplete="jenjang" autofocus required>
-                                        @error('pengalaman')
+                                        <input id="penerbit" class="form-control @error('penerbit') is-invalid @enderror" name="penerbit[]"  value="{{ $pengalaman['penerbit'] }}" required
+                                            autocomplete="penerbit" autofocus required>
+                                        @error('penerbit')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -89,28 +76,14 @@
                                 </div>
 
 
-                                <div class="row mb-3">
-                                    <label for="bidang_studi"
-                                        class="col-md-3 col-form-label text-md-end">{{ __('Bidang studi :') }}</label>
-                                    <div class="col-md-9">
-                                        <input id="bidang_studi" class="form-control @error('bidang_studi') is-invalid @enderror" name="bidang_studi"  value="{{ $pendidikan['bidang_studi'] }}" required
-                                            autocomplete="jenjang" autofocus required>
-                                        @error('pengalaman')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    
-                                </div>
-  
+                                
                                 <div class="row mb-3">
                                     <label for="tangal mulai"
                                         class="col-md-3 col-form-label text-md-end">{{ __('Tanggal mulai :') }}</label>
                                     <div class="col-md-9">
-                                        <input type="date" id="tanggal_mulai" class="form-control @error('tanggal_mulai') is-invalid @enderror" name="tanggal_mulai"  value="{{ $pendidikan['tanggal_mulai'] }}" required
-                                            autocomplete="tanggal_mulai" autofocus required>
-                                        @error('tanggal_mulai')
+                                        <input type="date" id="tanggalMulai" class="form-control @error('tanggalMulai') is-invalid @enderror" name="tanggalMulai[]"  value="{{ $pengalaman['tanggalMulai'] }}" required
+                                            autocomplete="tanggalMulai" autofocus required>
+                                        @error('tanggalMulai')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -121,12 +94,12 @@
 
 
                                 <div class="row mb-3">
-                                    <label for="tangal akhir"
+                                    <label for="tanggalAkhir"
                                         class="col-md-3 col-form-label text-md-end">{{ __('Tanggal akhir :') }}</label>
                                     <div class="col-md-9">
-                                        <input type="date" id="tanggal_akhir" class="form-control @error('tanggal_akhir') is-invalid @enderror" name="tanggal_akhir"  value="{{ $pendidikan['tanggal_akhir'] }}" required
-                                            autocomplete="tanggal_akhir" autofocus required>
-                                        @error('tanggal_akhir')
+                                        <input type="date" id="tanggalAkhir" class="form-control @error('tanggalAkhir') is-invalid @enderror" name="tanggalAkhir[]"  value="{{ $pengalaman['tanggalAkhir'] }}" required
+                                            autocomplete="tanggalAkhir" autofocus required>
+                                        @error('tanggalAkhir')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
                                             </span>
@@ -135,20 +108,7 @@
                                     
                                 </div>
 
-                                <div class="row mb-3">
-                                    <label for="deskripsi"
-                                        class="col-md-3 col-form-label text-md-end">{{ __('Deskripsi :') }}</label>
-                                    <div class="col-md-9">
-                                        <textarea  id="deskripsi" class="form-control @error('deskripsi') is-invalid @enderror" name="deskripsi"   required
-                                            autocomplete="deskripsi" autofocus required>{{ $pendidikan['deskripsi'] }}</textarea>
-                                        @error('deskripsi')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    
-                                </div>
+                              
 
                                
 
@@ -188,7 +148,6 @@
     </div>
 
     <script>
-        
         document.getElementById('provinsi').addEventListener('change', function() {
             // Mendapatkan nilai provinsi yang dipilih
             const selectedProvinsi = this.value;

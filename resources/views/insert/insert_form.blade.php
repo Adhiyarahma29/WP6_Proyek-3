@@ -23,7 +23,7 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">{{ __('Tambah Cv') }}
-                        <center> <a href="tab_mode_insert" id="get-started-button">Aktifkan Tab mode</a></center>
+                     
                     </div>
 
                     <div class="card-body">
@@ -466,7 +466,7 @@
                                 <button type="button" class="btn btn-primary" id="prev3">Kembali</button>
                                 <button type="button" class="btn btn-primary" id="next3">Lanjut</button>
                                 <button type="button" id="tambah-pengalaman" class="btn btn-primary">Tambah
-                                    Riwayat Riwayat</button>
+                                    pengalaman </button>
                                 
                             </div>
                             <!-- Slide 4 -->
@@ -659,13 +659,8 @@
             newRow.innerHTML = `
     <label for="bidang_pekerjaan" class="col-md-4 col-form-label text-md-end">{{ __('Bidang pekerjaan:') }}</label>
     <div class="col-md-6">
-    <select class="form-control" name="bidang_pekerjaan[]" required>
-                                            <option value="it prog">It prog</option>
-                                            <option value="Project manajer">Project manajer</option>
-                                            <option value="Manajer">Manajer</option>
-                                            <option value="Ui/Ux">Ui/Ux</option>
-                                            <!-- Tambahkan lebih banyak opsi jenjang sesuai kebutuhan -->
-                                        </select>
+        <input type="text" class="form-control perusahaan" name="bidang_pekerjaan[]" required>                           
+                                            <!-- Tambahkan lebih banyak opsi jenjang sesuai kebutuhan -->                                 
     </div>
     <label for="perusahaan" class="col-md-4 col-form-label text-md-end">{{ __('Nama perusahaan:') }}</label>
     <div class="col-md-6">
@@ -892,22 +887,7 @@ document.getElementById('next1').addEventListener('click', function() {
     const kabKota = document.getElementById('kab_kota').value;
     const kodePos = document.getElementById('kode_pos').value;
 
-    if (
-        !namaLengkap ||
-        !namaPanggilan ||
-        !tempatLahir ||
-        !tanggalLahir ||
-        !agama ||
-        !jenisKelamin ||
-        !alamat ||
-        !provinsi ||
-        !kabKota ||
-        !kodePos
-    ) {
-        // Isi bidang-bidang yang kosong dengan nilai default atau pesan kesalahan
-        alert('Harap isi semua bidang pada Slide 1 sebelum melanjutkan.');
-        return;
-    }
+   
     // Pindah ke Slide 2
     document.getElementById('slide1').style.display = 'none';
     document.getElementById('slide2').style.display = 'block';
@@ -974,9 +954,7 @@ document.getElementById('prev3').addEventListener('click', function() {
                     !file_portofolio[i].value 
                 ) {
                     // Isi bidang-bidang yang kosong dengan nilai default atau pesan kesalahan
-                    alert(
-                        "Harap isi semua bidang pada Slide 3 (Pengalaman) sebelum melanjutkan."
-                    );
+                  
                     return;
                 }
             }        

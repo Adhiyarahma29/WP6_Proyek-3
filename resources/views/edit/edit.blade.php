@@ -222,7 +222,7 @@
                                         class="col-md-3 col-form-label text-md-end">{{ __('Alamat Lengkap:') }}</label>
                                     <div class="col-md-9">
                                         <textarea id="alamat" class="form-control @error('alamat') is-invalid @enderror" name="alamat" required
-                                            autocomplete="alamat" autofocus required>{{ $edit->alamat }}"</textarea>
+                                            autocomplete="alamat" autofocus required>{{ $edit->alamat }}</textarea>
                                         @error('alamat')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -254,7 +254,7 @@
                                     <div class="col-md-9">
                                         <textarea id="about_me" class="form-control @error('about_me') is-invalid @enderror" name="about_me"
                                         value="{{ $edit->about_me }}"  required autocomplete="about_me" placeholder="Tuliskan tentang diri anda"
-                                            autofocus required>{{ $edit->about_me }}"</textarea>
+                                            autofocus required>{{ $edit->about_me }}</textarea>
                                         @error('about_me')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
