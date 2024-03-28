@@ -54,16 +54,19 @@ class slide1controller extends Controller
             'email' => 'required',
             'no_hp' => 'required',
             'file_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Validation rule for images
-            
-    
             // Validasi untuk file (gunakan sertifikat[][], dokumen_pendukung[][] dan file_portofolio[][])
             'sertifikat.*' => 'required|mimes:pdf,doc,docx,jpg,png',
             'dokumen_pendukung.*' => 'required|mimes:pdf,doc,docx,jpg,png',
             'file_portofolio.*' => 'required|mimes:pdf,doc,docx,jpg,png',
+             // Handle image file upload 
 
-             // Handle image file upload
-       
         ]);
+
+          // Handle image file upload
+          $imageFile = $request->file('file_image');
+          $nama_image_file = time() . '_' . $imageFile->getClientOriginalName();
+          $tujuan_upload_image = 'storage/user';
+          $imageFile->move($tujuan_upload_image, $nama_image_file);
     
         // Menyimpan data pribadi ke dalam variabel
         $personalData = [
@@ -83,16 +86,18 @@ class slide1controller extends Controller
             'file_image' => $request->file_image,
             'user_id' => $user_id,
             'user_name' => $user_name,
-          
+            'file_path_image' => $tujuan_upload_image . '/' . $nama_image_file,
         ];
 
-        $imageFile = $request->file('file_image');
-        $nama_image_file = time() . '_' . $imageFile->getClientOriginalName();
-        $tujuan_upload_image = 'storage/user';
-        $imageFile->move($tujuan_upload_image, $nama_image_file);
+      
 
-        $userId = Auth::id();
-        $cvId = DB::table('cv')->where('user_id', $userId)->value('id');
+       
+      
+      
+       
+        
+
+       
         // Store "riwayat_pendidikan" data using DB Facade
     $riwayatPendidikan = [];
     for ($i = 0; $i < count($request->jenjang); $i++) {
@@ -105,11 +110,11 @@ class slide1controller extends Controller
             'tanggal_mulai' => $request->tanggal_mulai[$i],
             'tanggal_akhir' => $request->tanggal_akhir[$i],
             'deskripsi' => $request->deskripsi[$i],
-            'cv_id' => $cvId, // Set the cv_id based on your logic
+           
         ];
     }
 
-   
+  
 
     $riwayatPekerjaan = [];
     for ($i = 0; $i < count($request->bidang_pekerjaan); $i++) {
@@ -120,7 +125,7 @@ class slide1controller extends Controller
             'tanggal_mulai' => $request->tanggal_mulai[$i],
             'tanggal_akhir' => $request->tanggal_akhir[$i],
             'deskripsi' => $request->deskripsi[$i],
-            'cv_id' => $cvId, // Set the cv_id based on your logic
+           
         ];
     }
 
@@ -142,6 +147,7 @@ for ($i = 0; $i < count($request->organisasi); $i++) {
         'tanggalAkhir' => $request->tanggal_akhir[$i],
         'sertifikat' => $sertifikatPath, // Ganti dengan jalur sesuai dengan unggahan
         'file_portofolio' => $filePortofolioPath, // Ganti dengan jalur sesuai dengan unggahan
+       
     ];
 
     // Tambahkan data pengalaman ke dalam array $pengalamanaksi
@@ -151,15 +157,34 @@ for ($i = 0; $i < count($request->organisasi); $i++) {
 
         // Menggabungkan data pribadi dan data file ke dalam satu array
         // Menyimpan data ke dalam tabel cv_personal menggunakan DB Facade
+      
         DB::table('cv')->insert($personalData);
-        $riwayatPendidikanString = json_encode($riwayatPendidikan);
-        DB::table('riwayat_pendidikan')->insert(['data_pendidikan' => $riwayatPendidikanString]);
-        $riwayatPekerjaanString = json_encode($riwayatPekerjaan);
-        DB::table('riwayat_pekerjaan')->insert(['data_pekerjaan' => $riwayatPekerjaanString]);
-        $pengalamanString = json_encode($pengalaman);
-        DB::table('pengalaman')->insert(['pengalaman' => $pengalamanString]);
+        $cvData = DB::table('cv')->where('user_id', $user_id)->latest('created_at')->first();
+        $id_cv = $cvData->id;
         
-    
+        // Insert riwayat_pendidikan
+        DB::table('riwayat_pendidikan')->insert(array_merge([
+            'data_pendidikan' => json_encode($riwayatPendidikan),
+            'user_id' => $user_id,
+            'user_name' => $user_name,
+            'id_cv' => $id_cv
+        ]));
+        
+        // Insert riwayat_pekerjaan
+        DB::table('riwayat_pekerjaan')->insert(array_merge([
+            'data_pekerjaan' => json_encode($riwayatPekerjaan),
+            'user_id' => $user_id,
+            'user_name' => $user_name,
+            'id_cv' => $id_cv
+        ]));
+        
+        // Insert pengalaman
+        DB::table('pengalaman')->insert(array_merge([
+            'data_pengalaman' => json_encode($pengalaman),
+            'user_id' => $user_id,
+            'user_name' => $user_name,
+            'id_cv' => $id_cv
+        ]));
         return redirect()->route('personal.index')
             ->with('success', 'Data berhasil ditambahkan.');
     }
